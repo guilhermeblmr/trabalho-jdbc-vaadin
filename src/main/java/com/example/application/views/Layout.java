@@ -1,48 +1,45 @@
 package com.example.application.views;
 
+import com.example.application.views.Gains.GainView;
+import com.example.application.views.Spents.SpentView;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
-public class Layout extends AppLayout {
+public class Layout extends AppLayout { 
 
     public Layout() {
         createHeader();
+        createDrawer();
     }
 
     private void createHeader() {
-        H1 logo = new H1("Los Financeros Hermanos");
+        H1 logo = new H1("Vaadin CRM");
         logo.addClassNames(
-                LumoUtility.FontSize.LARGE,
-                LumoUtility.Margin.MEDIUM);
+            LumoUtility.FontSize.LARGE, 
+            LumoUtility.Margin.MEDIUM);
 
-        HorizontalLayout menu = new HorizontalLayout(
-                new RouterLink("login", LoginView.class),
-                new RouterLink("novo", CreateView.class),
-                new RouterLink("editar", EditView.class)
+        var header = new HorizontalLayout(new DrawerToggle(), logo ); 
 
-                );
-                
-
-        var header = new HorizontalLayout(logo);
-
-        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER); 
         header.setWidthFull();
         header.addClassNames(
-                LumoUtility.Padding.Vertical.NONE,
-                LumoUtility.Padding.Horizontal.MEDIUM);
+            LumoUtility.Padding.Vertical.NONE,
+            LumoUtility.Padding.Horizontal.MEDIUM);
 
-        menu.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
-        menu.setWidthFull();
-        menu.addClassNames(
-                LumoUtility.Padding.Vertical.NONE,
-                LumoUtility.Padding.Horizontal.MEDIUM);
+        addToNavbar(header); 
 
-        addToNavbar(header);
-        addToNavbar(menu);
+    }
 
+    private void createDrawer() {
+        addToDrawer(new VerticalLayout( 
+                new RouterLink("Ganhos", GainView.class),
+                new RouterLink("Gastos", SpentView.class)
+        ));
     }
 }

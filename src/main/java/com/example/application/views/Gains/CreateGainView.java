@@ -30,7 +30,6 @@ public class CreateGainView extends VerticalLayout {
             UI.getCurrent().navigate(GainView.class);
         });
         
-        // Adiciona componentes ao layout
         add(createGanhoForm(), salvarGanhoButton);
     }
 

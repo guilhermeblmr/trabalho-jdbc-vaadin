@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import com.example.application.controllers.SpentController;
 
 public class SpentModel {
@@ -35,6 +34,30 @@ public class SpentModel {
         }
     }
 
+    public static SpentController getSpentById(int id) {
+        SpentController gasto = null;
+        try (Connection c = DriverManager.getConnection(url)) {
+            String selectSql = "SELECT * FROM spent WHERE id_spent=?";
+            try (PreparedStatement selectStatement = c.prepareStatement(selectSql)) {
+                selectStatement.setInt(1, id);
+                ResultSet resultSet = selectStatement.executeQuery();
+                if (resultSet.next()) {
+                    Integer id_spent = resultSet.getInt("id_spent");
+                    String tipo = resultSet.getString("tipo");
+                    Date data = resultSet.getDate("data");
+                    double valor = resultSet.getDouble("valor");
+                    String formaPagamento = resultSet.getString("formaPagamento");
+                    gasto = new SpentController(id_spent, tipo, data, valor, formaPagamento);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gasto;
+    }
+
     public static void insert(String tipo, Date data, Double valor, String formaPagamento) {
         try (Connection c = DriverManager.getConnection(url)) {
             String insertSql = "INSERT INTO spent (tipo, data, valor, formaPagamento) VALUES (?, ?, ?, ?)";
@@ -59,11 +82,12 @@ public class SpentModel {
             try (PreparedStatement selectStatement = c.prepareStatement(selectSql)) {
                 ResultSet resultSet = selectStatement.executeQuery();
                 while (resultSet.next()) {
+                    Integer id_spent = resultSet.getInt("id_spent");
                     String tipo = resultSet.getString("tipo");
                     Date data = resultSet.getDate("data");
                     double valor = resultSet.getDouble("valor");
                     String formaPagamento = resultSet.getString("formaPagamento");
-                    gastos.add(new SpentController(tipo, data, valor, formaPagamento));
+                    gastos.add(new SpentController(id_spent, tipo, data, valor, formaPagamento));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -24,6 +24,11 @@ public class Layout extends AppLayout {
             LumoUtility.FontSize.LARGE, 
             LumoUtility.Margin.MEDIUM);
 
+        HorizontalLayout menu = new HorizontalLayout(
+            new RouterLink("Logout", LoginView.class)
+        );
+
+
         var header = new HorizontalLayout(new DrawerToggle(), logo ); 
 
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER); 
@@ -32,7 +37,7 @@ public class Layout extends AppLayout {
             LumoUtility.Padding.Vertical.NONE,
             LumoUtility.Padding.Horizontal.MEDIUM);
 
-        addToNavbar(header); 
+        addToNavbar(header, menu); 
 
     }
 

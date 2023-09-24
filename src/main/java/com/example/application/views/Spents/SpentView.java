@@ -27,10 +27,26 @@ public class SpentView extends VerticalLayout {
             UI.getCurrent().navigate(CreateSpentView.class);
         });
 
-        // Configuração dos grids de exibição
         gastoGrid.setColumns("tipo", "data", "valor", "formaPagamento");
 
-        // Adiciona componentes ao layout
+        gastoGrid.addComponentColumn(item -> {
+            Button editButton = new Button("Editar");
+            editButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+            editButton.addClickListener(e -> {
+                UI.getCurrent().navigate("edit/gasto/" + item.getId());
+            });
+            return editButton;
+        });
+        
+        gastoGrid.addComponentColumn(item -> {
+            Button deleteButton = new Button("Excluir");
+            deleteButton.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_ERROR);
+            deleteButton.addClickListener(e -> {
+                UI.getCurrent().navigate("delete/gasto/" + item.getId());
+            });
+            return deleteButton;
+        });
+
         add(novoGanhoButton, gastoGrid);
         listarGastos();
     }

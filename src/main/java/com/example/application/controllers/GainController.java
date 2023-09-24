@@ -3,18 +3,20 @@ package com.example.application.controllers;
 import java.util.Date;
 
 public class GainController {
+    private Integer id_gain;
     private String tipo;
     private Date data;
     private double valor;
 
-    public GainController(String tipo, Date date, double valor) {
+    public GainController(Integer id_gain, String tipo, Date date, double valor) {
+        this.id_gain = id_gain;
         this.tipo = tipo;
         this.data = date;
         this.valor = valor;
     }
 
-    public String getId() {
-        return tipo;
+    public Integer getId() {
+        return id_gain;
     }
 
     public String getTipo() {

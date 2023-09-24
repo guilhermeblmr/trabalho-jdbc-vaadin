@@ -31,7 +31,6 @@ public class CreateSpentView extends VerticalLayout {
             UI.getCurrent().navigate(SpentView.class);
         });
         
-        // Adiciona componentes ao layout
         add(createGastoForm(), salvarGastoButton);
     }
 

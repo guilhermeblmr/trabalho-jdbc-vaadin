@@ -39,7 +39,6 @@ public class GainModel {
             String insertSql = "INSERT INTO gain (tipo, data, valor) VALUES (?, ?, ?)";
             try (PreparedStatement insertStatement = c.prepareStatement(insertSql)) {
                 insertStatement.setString(1, tipo);
-                // Converte java.util.Date para java.sql.Date
                 java.sql.Date sqlDate = new java.sql.Date(data.getTime());
                 insertStatement.setDate(2, sqlDate);
                 insertStatement.setDouble(3, valor);
@@ -51,6 +50,30 @@ public class GainModel {
             e.printStackTrace();
         }
     }
+
+    public static GainController getGainById(int id) {
+        GainController ganho = null;
+        try (Connection c = DriverManager.getConnection(url)) {
+            String selectSql = "SELECT * FROM gain WHERE id_gain=?";
+            try (PreparedStatement selectStatement = c.prepareStatement(selectSql)) {
+                selectStatement.setInt(1, id);
+                ResultSet resultSet = selectStatement.executeQuery();
+                if (resultSet.next()) {
+                    Integer id_gain = resultSet.getInt("id_gain");
+                    String tipo = resultSet.getString("tipo");
+                    Date data = resultSet.getDate("data");
+                    double valor = resultSet.getDouble("valor");
+                    ganho = new GainController(id_gain, tipo, data, valor);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ganho;
+    }
+    
     
     public static List<GainController> getAll() {
         List<GainController> ganhos = new ArrayList<>();
@@ -59,10 +82,11 @@ public class GainModel {
             try (PreparedStatement selectStatement = c.prepareStatement(selectSql)) {
                 ResultSet resultSet = selectStatement.executeQuery();
                 while (resultSet.next()) {
+                    Integer id_gain = resultSet.getInt("id_gain");
                     String tipo = resultSet.getString("tipo");
                     Date data = resultSet.getDate("data");
                     double valor = resultSet.getDouble("valor");
-                    ganhos.add(new GainController(tipo, data, valor));
+                    ganhos.add(new GainController(id_gain, tipo, data, valor));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

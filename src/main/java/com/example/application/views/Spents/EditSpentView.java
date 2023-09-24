@@ -1,9 +1,10 @@
-package com.example.application.views.Gains;
+package com.example.application.views.Spents;
 
 import java.sql.Date;
 
 import com.example.application.controllers.GainController;
-import com.example.application.models.GainModel;
+import com.example.application.controllers.SpentController;
+import com.example.application.models.SpentModel;
 import com.example.application.views.Layout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -18,16 +19,16 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "edit/ganho/:id", layout = Layout.class)
-public class EditGainView extends VerticalLayout implements BeforeEnterObserver {
+@Route(value = "edit/gasto/:id", layout = Layout.class)
+public class EditSpentView extends VerticalLayout implements BeforeEnterObserver {
 
-    private int ganhoId;
-    private GainController ganho;
+    private int gastoId;
+    private SpentController gasto;
     private TextField tipoField = new TextField("Tipo");
     private DatePicker dataPicker = new DatePicker("Data");
     private NumberField valorField = new NumberField("Valor");
 
-    public EditGainView() {
+    public EditSpentView() {
         Button salvarButton = new Button("Salvar");
         salvarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         salvarButton.addClickListener(e -> salvarGanho());
@@ -40,28 +41,28 @@ public class EditGainView extends VerticalLayout implements BeforeEnterObserver 
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        String ganhoIdStr = event.getRouteParameters().get("id").orElse(null);
-        if (ganhoIdStr != null) {
+        String gastoIdStr = event.getRouteParameters().get("id").orElse(null);
+        if (gastoIdStr != null) {
             try {
-                ganhoId = Integer.parseInt(ganhoIdStr);
-                ganho = GainModel.getGainById(ganhoId);
-                if (ganho != null) {
+                gastoId = Integer.parseInt(gastoIdStr);
+                gasto = SpentModel.getSpentById(gastoId);
+                if (gasto != null) {
                     preencherCampos();
                 } else {
-                    event.forwardTo(GainView.class);
+                    event.forwardTo(SpentView.class);
                 }
             } catch (NumberFormatException e) {
-                event.forwardTo(GainView.class);
+                event.forwardTo(SpentView.class);
             }
         } else {
-            event.forwardTo(GainView.class);
+            event.forwardTo(SpentView.class);
         }
     }
 
     private void preencherCampos() {
-        tipoField.setValue(ganho.getTipo());
-        dataPicker.setValue(((Date) ganho.getData()).toLocalDate());
-        valorField.setValue(ganho.getValor());
+        tipoField.setValue(gasto.getTipo());
+        dataPicker.setValue(((Date) gasto.getData()).toLocalDate());
+        valorField.setValue(gasto.getValor());
     }
 
     private void salvarGanho() {
@@ -69,12 +70,12 @@ public class EditGainView extends VerticalLayout implements BeforeEnterObserver 
         java.util.Date novaData = java.sql.Date.valueOf(dataPicker.getValue());
         double novoValor = valorField.getValue();
 
-        ganho.setTipo(novoTipo);
-        ganho.setData(novaData);
-        ganho.setValor(novoValor);
+        gasto.setTipo(novoTipo);
+        gasto.setData(novaData);
+        gasto.setValor(novoValor);
 
-        GainModel.update(ganhoId, ganho);
-        UI.getCurrent().navigate(GainView.class);
+        SpentModel.update(gastoId, gasto);
+        UI.getCurrent().navigate(SpentView.class);
 
         Notification.show("Ganho atualizado com sucesso!");
     }

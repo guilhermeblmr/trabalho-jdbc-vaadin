@@ -19,14 +19,18 @@ public class Layout extends AppLayout {
     }
 
     private void createHeader() {
-        H1 logo = new H1("Vaadin CRM");
+        H1 logo = new H1("Los Financeros Hermanos");
         logo.addClassNames(
             LumoUtility.FontSize.LARGE, 
             LumoUtility.Margin.MEDIUM);
 
-        HorizontalLayout menu = new HorizontalLayout(
+        HorizontalLayout logout = new HorizontalLayout(
             new RouterLink("Logout", LoginView.class)
         );
+        
+        logout.addClassNames(
+            LumoUtility.Padding.Vertical.NONE,
+            LumoUtility.Padding.Horizontal.MEDIUM);
 
 
         var header = new HorizontalLayout(new DrawerToggle(), logo ); 
@@ -37,7 +41,7 @@ public class Layout extends AppLayout {
             LumoUtility.Padding.Vertical.NONE,
             LumoUtility.Padding.Horizontal.MEDIUM);
 
-        addToNavbar(header, menu); 
+        addToNavbar(header, logout); 
 
     }
 

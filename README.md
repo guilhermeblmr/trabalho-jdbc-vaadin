@@ -1,52 +1,36 @@
-# Vaadin Flow Quick Start Application
+# Los Financeros Hermanos
 
-This repository contains the source code for the [Vaadin Flow Quick Start Guide](https://vaadin.com/docs/latest/flow/guide/quick-start).
+## Histórias de usuários
 
-## Branches
-
-- The main branch contains the source code for the latest Vaadin release.
-- The `v14` branch contains the source code for Vaadin 14 LTS.
-
-## Running the Application Locally
-
-The project is a standard Maven project. To run it from the command line,
-type `mvnw` (Windows), or `./mvnw` (Mac & Linux), then open
-http://localhost:8080 in your browser.
-
-You can also import the project to your IDE of choice as you would with any
-Maven project. Read more on [how to import Vaadin projects to different
-IDEs](https://vaadin.com/docs/latest/flow/guide/step-by-step/importing) (Eclipse, IntelliJ IDEA, NetBeans, and VS Code).
-
-## Open in Online IDE
+Como usuário, eu quero poder cadastrar minha conta e fazer login no sistema.
+Como usuário, eu quero consultar, adicionar, editar e deletar meus ganhos.
+Como usuário, eu quero consultar, adicionar, editar e deletar meus gastos.
+Como usuário, eu quero ter a opção de trocar minha senha caso tenha a esquecido.
+Como usuário, eu querto ter a opção de fazer logout do sistema.
 
 [![Open in online IDE ](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/vaadin/flow-quickstart-tutorial)
 
 
-## Deploying to Production
-
-To create a production build, call `mvnw clean package -Pproduction` (Windows),
-or `./mvnw clean package -Pproduction` (Mac & Linux).
-This will build a JAR file with all the dependencies and front-end resources,
-ready to be deployed. The file can be found in the `target` folder after the build completes.
-
-Once the JAR file is built, you can run it using
-`java -jar target/mytodo-1.0-SNAPSHOT.jar`
-
-## Project structure
-
-- `views` package in `src/main/java` contains the server-side Java views of your application.
-- `themes` folder in `frontend/` contains the custom CSS styles.
-
-## Useful links
-
-- Read the documentation at [vaadin.com/docs](https://vaadin.com/docs).
-- Follow the tutorials at [vaadin.com/tutorials](https://vaadin.com/tutorials).
-- Watch training videos and get certified at [vaadin.com/learn/training](https://vaadin.com/learn/training).
-- Create new projects at [start.vaadin.com](https://start.vaadin.com/).
-- Search UI components and their usage examples at [vaadin.com/components](https://vaadin.com/components).
-- View use case applications that demonstrate Vaadin capabilities at [vaadin.com/examples-and-demos](https://vaadin.com/examples-and-demos).
-- Discover Vaadin's set of CSS utility classes that enable building any UI without custom CSS in the [docs](https://vaadin.com/docs/latest/ds/foundation/utility-classes). 
-- Find a collection of solutions to common use cases in [Vaadin Cookbook](https://cookbook.vaadin.com/).
-- Find Add-ons at [vaadin.com/directory](https://vaadin.com/directory).
-- Ask questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/vaadin) or join our [Discord channel](https://discord.gg/MYFq5RTbBn).
-- Report issues, create pull requests in [GitHub](https://github.com/vaadin/platform).
+## Diagrama de classe UML
+```Java
+____________________________________________________________________________       _________________________________________________________________________________________________________
+|                             GainController                                |      |                                           SpentController                                             |      
+|___________________________________________________________________________|      |_______________________________________________________________________________________________________|      
+| - id_gain: Integer                                                        |      | - id_gain: Integer                                                                                    |      
+| - tipo: String                                                            |      | - tipo: String                                                                                        |      
+| - data: Date                                                              |      | - data: Date                                                                                          |
+| - valor: Double                                                           |      | - valor: Double                                                                                       |      
+|                                                                           |      | - formaPagamento: String                                                                              |
+| +GainController(id_gain: Integer, tipo: String, date: Date, valor: double)|      |                                                                                                       |
+| +getId(): Integer                                                         |      | +SpentController(id_spent: Integer, tipo: String, date: Date, valor: double, formaPagamento: String)  |
+| +getTipo(): String                                                        |      | +getId(): Integer                                                                                     |
+| +setTipo(tipo: String): void                                              |      | +getTipo(): String                                                                                    |
+| +getData(): Date                                                          |      | +setTipo(tipo: String): void                                                                          |
+| +setData(data: Date): void                                                |      | +getData(): Date                                                                                      |
+| +getValor(): double                                                       |      | +setData(data: Date): void                                                                            |
+| +setValor(valor: double): void                                            |      | +getValor(): double                                                                                   |
+|                                                                           |      | +setValor(valor: double): void                                                                        |
+|                                                                           |      | +getFormaPagamento(): String                                                                          |
+|                                                                           |      | +setFormaPagamento(formaPagamento: String): void                                                      |
+|___________________________________________________________________________|      |_______________________________________________________________________________________________________|      
+```

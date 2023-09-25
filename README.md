@@ -2,11 +2,11 @@
 
 ## Histórias de usuários
 
-Como usuário, eu quero poder cadastrar minha conta e fazer login no sistema.
-Como usuário, eu quero consultar, adicionar, editar e deletar meus ganhos.
-Como usuário, eu quero consultar, adicionar, editar e deletar meus gastos.
-Como usuário, eu quero ter a opção de trocar minha senha caso tenha a esquecido.
-Como usuário, eu querto ter a opção de fazer logout do sistema.
+- Como usuário, eu quero poder cadastrar minha conta e fazer login no sistema.
+- Como usuário, eu quero consultar, adicionar, editar e deletar meus ganhos.
+- Como usuário, eu quero consultar, adicionar, editar e deletar meus gastos.
+- Como usuário, eu quero ter a opção de trocar minha senha caso tenha a esquecido.
+- Como usuário, eu querto ter a opção de fazer logout do sistema.
 
 [![Open in online IDE ](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/vaadin/flow-quickstart-tutorial)
 

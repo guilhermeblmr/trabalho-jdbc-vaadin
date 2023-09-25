@@ -18,10 +18,9 @@ public class UserModel {
                     CREATE TABLE IF NOT EXISTS user (
                         id_user INTEGER PRIMARY KEY AUTOINCREMENT,
                         username VARCHAR(250),
-                        name VARCHAR(250),
-                        last_name VARCHAR(250),
+                        name VARCHAR(250) NULL,
                         password VARCHAR(250)
-                    )
+                    );
                     """;
             try (PreparedStatement createTableStatement = c.prepareStatement(createTableSql)) {
                 createTableStatement.execute();
@@ -33,22 +32,24 @@ public class UserModel {
         }
     }
 
-    public static void insertUser(String username, String name, String last_name, String password) {
+    public static boolean insertUser(String username, String password) {
         String url = "jdbc:sqlite:database.sqlite";
+    
         try (Connection c = DriverManager.getConnection(url)) {
-            String insertSql = "INSERT INTO user (username, name, last_name, password) VALUES (?, ?, ?, ?)";
+            String insertSql = "INSERT INTO user (username, password) VALUES (?, ?)";
             try (PreparedStatement insertStatement = c.prepareStatement(insertSql)) {
                 insertStatement.setString(1, username);
-                insertStatement.setString(2, name);
-                insertStatement.setString(3, last_name);
-                insertStatement.setString(4, password);
-                insertStatement.executeUpdate();
+                insertStatement.setString(2, password);
+                int rowsAffected = insertStatement.executeUpdate();
+                return rowsAffected > 0;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    
+        return false;
     }
 
     public static boolean checkCredentials(String username, String password) {

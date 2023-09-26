@@ -1,5 +1,6 @@
 package com.example.application.views;
 
+import com.example.application.controllers.UserController;
 import com.example.application.models.UserModel;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -43,6 +44,8 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         loginForm.addLoginListener(e -> {
             boolean isAuthenticated = UserModel.checkCredentials(e.getUsername(), e.getPassword());
             if (isAuthenticated) {
+                int userId = UserModel.getUserIdByUsername(e.getUsername());
+                UserController.setUserId(userId);
                 e.getSource().getUI().ifPresent(ui -> ui.navigate(InicioView.class));
             } else {
                 loginForm.setError(true);

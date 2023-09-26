@@ -1,5 +1,6 @@
 package com.example.application.views.Gains;
 
+import com.example.application.controllers.UserController;
 import com.example.application.models.GainModel;
 import com.example.application.views.Layout;
 import com.vaadin.flow.component.UI;
@@ -43,7 +44,8 @@ public class CreateGainView extends VerticalLayout {
         String tipo = ganhoTipoField.getValue();
         Date data = java.util.Date.from(ganhoDataPicker.getValue().atStartOfDay().toInstant(java.time.ZoneOffset.UTC));
         double valor = ganhoValorField.getValue();
-        GainModel.insert(tipo, data, valor);
+        int userId = UserController.getId();
+        GainModel.insert(tipo, data, valor, userId);
         limparCamposGanho();
     }
 

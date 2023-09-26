@@ -21,8 +21,10 @@ public class SpentModel {
                         tipo VARCHAR(250),
                         data DATE,
                         valor DOUBLE,
-                        formaPagamento VARCHAR(250)
-                    )
+                        formaPagamento VARCHAR(250),
+                        id_user INTEGER,
+                        FOREIGN KEY (id_user) REFERENCES user (id_user) 
+                    );
                     """;
             try (PreparedStatement createTableStatement = c.prepareStatement(createTableSql)) {
                 createTableStatement.execute();

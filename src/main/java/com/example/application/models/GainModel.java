@@ -21,8 +21,10 @@ public class GainModel {
                         id_gain INTEGER PRIMARY KEY AUTOINCREMENT,
                         tipo VARCHAR(250),
                         data DATE,
-                        valor DOUBLE
-                    )
+                        valor DOUBLE,
+                        id_user INTEGER,
+                        FOREIGN KEY (id_user) REFERENCES user (id_user) 
+                    );
                     """;
             try (PreparedStatement createTableStatement = c.prepareStatement(createTableSql)) {
                 createTableStatement.execute();
@@ -34,14 +36,17 @@ public class GainModel {
         }
     }
 
-    public static void insert(String tipo, Date data, Double valor) {
+    public static void insert(String tipo, Date data, Double valor, int userId) {
+        String url = "jdbc:sqlite:database.sqlite";
+        
         try (Connection c = DriverManager.getConnection(url)) {
-            String insertSql = "INSERT INTO gain (tipo, data, valor) VALUES (?, ?, ?)";
+            String insertSql = "INSERT INTO gain (tipo, data, valor, id_user) VALUES (?, ?, ?, ?)";
             try (PreparedStatement insertStatement = c.prepareStatement(insertSql)) {
                 insertStatement.setString(1, tipo);
                 java.sql.Date sqlDate = new java.sql.Date(data.getTime());
                 insertStatement.setDate(2, sqlDate);
                 insertStatement.setDouble(3, valor);
+                insertStatement.setInt(4, userId);
                 insertStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

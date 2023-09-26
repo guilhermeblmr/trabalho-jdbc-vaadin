@@ -6,10 +6,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.example.application.controllers.UserController;
+
 public class UserModel {
     public static void main(String[] args) {
         String url = "jdbc:sqlite:database.sqlite";
         createTable(url);
+    }
+
+    public static int getUserIdByUsername(String username) {
+        String url = "jdbc:sqlite:database.sqlite";
+    
+        try (Connection c = DriverManager.getConnection(url)) {
+            String query = "SELECT id_user FROM user WHERE username = ?";
+            try (PreparedStatement statement = c.prepareStatement(query)) {
+                statement.setString(1, username);
+                try (ResultSet result = statement.executeQuery()) {
+                    if (result.next()) {
+                        int userId = result.getInt("id_user");
+                        UserController.setUserId(userId);
+                        return userId;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return -1;
     }
 
     public static void createTable(String url) {
@@ -18,7 +44,6 @@ public class UserModel {
                     CREATE TABLE IF NOT EXISTS user (
                         id_user INTEGER PRIMARY KEY AUTOINCREMENT,
                         username VARCHAR(250),
-                        name VARCHAR(250) NULL,
                         password VARCHAR(250)
                     );
                     """;

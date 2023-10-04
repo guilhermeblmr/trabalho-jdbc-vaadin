@@ -1,6 +1,7 @@
 package com.example.application.views.Spents;
 
 import com.example.application.controllers.SpentController;
+import com.example.application.controllers.UserController;
 import com.example.application.models.SpentModel;
 import com.example.application.views.Layout;
 import com.vaadin.flow.component.UI;
@@ -12,14 +13,14 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "gastos", layout = Layout.class) 
+@Route(value = "gastos", layout = Layout.class)
 public class SpentView extends VerticalLayout {
 
     private final Grid<SpentController> gastoGrid = new Grid<>(SpentController.class);
-    
+   
     public SpentView() {
-        
-        Button novoGanhoButton = new Button("Novo ganho", new Icon(VaadinIcon.PLUS));
+       
+        Button novoGanhoButton = new Button("Novo gasto", new Icon(VaadinIcon.PLUS));
         novoGanhoButton.addThemeVariants(ButtonVariant.LUMO_ICON);
         novoGanhoButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         novoGanhoButton.setAriaLabel("Adicionar ganho");
@@ -37,7 +38,7 @@ public class SpentView extends VerticalLayout {
             });
             return editButton;
         });
-        
+       
         gastoGrid.addComponentColumn(item -> {
             Button deleteButton = new Button("Excluir");
             deleteButton.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_ERROR);
@@ -52,7 +53,9 @@ public class SpentView extends VerticalLayout {
     }
 
     private void listarGastos() {
-        gastoGrid.setItems(SpentModel.getAll());
+        Integer userId = UserController.getId();
+        System.out.println(userId);
+        gastoGrid.setItems(SpentModel.getAll(userId));
     }
 
 }

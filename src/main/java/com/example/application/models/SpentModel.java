@@ -23,7 +23,7 @@ public class SpentModel {
                         valor DOUBLE,
                         formaPagamento VARCHAR(250),
                         id_user INTEGER,
-                        FOREIGN KEY (id_user) REFERENCES user (id_user) 
+                        FOREIGN KEY (id_user) REFERENCES user (id_user)
                     );
                     """;
             try (PreparedStatement createTableStatement = c.prepareStatement(createTableSql)) {
@@ -60,28 +60,36 @@ public class SpentModel {
         return gasto;
     }
 
-    public static void insert(String tipo, Date data, Double valor, String formaPagamento) {
+    public static boolean insertSpent(String tipo, Date data, Double valor, String formaPagamento, int userId) {
+        String url = "jdbc:sqlite:database.sqlite";
+   
         try (Connection c = DriverManager.getConnection(url)) {
-            String insertSql = "INSERT INTO spent (tipo, data, valor, formaPagamento) VALUES (?, ?, ?, ?)";
+            String insertSql = "INSERT INTO spent (tipo, data, valor, formaPagamento, id_user) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement insertStatement = c.prepareStatement(insertSql)) {
                 insertStatement.setString(1, tipo);
-                insertStatement.setDate(2, new java.sql.Date(data.getTime()));
+                java.sql.Date sqlDate = new java.sql.Date(data.getTime());
+                insertStatement.setDate(2, sqlDate);
                 insertStatement.setDouble(3, valor);
                 insertStatement.setString(4, formaPagamento);
-                insertStatement.executeUpdate();
+                insertStatement.setInt(5, userId);
+                int rowsAffected = insertStatement.executeUpdate();
+                return rowsAffected > 0;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+   
+        return false;
     }
 
-    public static List<SpentController> getAll() {
+    public static List<SpentController> getAll(int id_user) {
         List<SpentController> gastos = new ArrayList<>();
         try (Connection c = DriverManager.getConnection(url)) {
-            String selectSql = "SELECT * FROM spent";
+            String selectSql = "SELECT * FROM spent WHERE id_user=?";
             try (PreparedStatement selectStatement = c.prepareStatement(selectSql)) {
+                selectStatement.setInt(1, id_user);  // set the parameter
                 ResultSet resultSet = selectStatement.executeQuery();
                 while (resultSet.next()) {
                     Integer id_spent = resultSet.getInt("id_spent");

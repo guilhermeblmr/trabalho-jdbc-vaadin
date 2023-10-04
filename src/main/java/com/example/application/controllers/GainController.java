@@ -8,6 +8,9 @@ public class GainController {
     private Date data;
     private double valor;
 
+    public GainController() {
+    }
+
     public GainController(Integer id_gain, String tipo, Date date, double valor) {
         this.id_gain = id_gain;
         this.tipo = tipo;

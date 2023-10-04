@@ -23,7 +23,7 @@ public class GainModel {
                         data DATE,
                         valor DOUBLE,
                         id_user INTEGER,
-                        FOREIGN KEY (id_user) REFERENCES user (id_user) 
+                        FOREIGN KEY (id_user) REFERENCES user (id_user)
                     );
                     """;
             try (PreparedStatement createTableStatement = c.prepareStatement(createTableSql)) {
@@ -36,9 +36,9 @@ public class GainModel {
         }
     }
 
-    public static void insert(String tipo, Date data, Double valor, int userId) {
+    public static boolean insertGain(String tipo, Date data, Double valor, int userId) {
         String url = "jdbc:sqlite:database.sqlite";
-        
+
         try (Connection c = DriverManager.getConnection(url)) {
             String insertSql = "INSERT INTO gain (tipo, data, valor, id_user) VALUES (?, ?, ?, ?)";
             try (PreparedStatement insertStatement = c.prepareStatement(insertSql)) {
@@ -47,13 +47,16 @@ public class GainModel {
                 insertStatement.setDate(2, sqlDate);
                 insertStatement.setDouble(3, valor);
                 insertStatement.setInt(4, userId);
-                insertStatement.executeUpdate();
+                int rowsAffected = insertStatement.executeUpdate();
+                return rowsAffected > 0;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
     public static GainController getGainById(int id) {
@@ -78,13 +81,13 @@ public class GainModel {
         }
         return ganho;
     }
-    
-    
-    public static List<GainController> getAll() {
+   
+    public static List<GainController> getAll(int userId) {
         List<GainController> ganhos = new ArrayList<>();
         try (Connection c = DriverManager.getConnection(url)) {
-            String selectSql = "SELECT * FROM gain";
+            String selectSql = "SELECT * FROM gain WHERE id_user=?";
             try (PreparedStatement selectStatement = c.prepareStatement(selectSql)) {
+                selectStatement.setInt(1, userId);
                 ResultSet resultSet = selectStatement.executeQuery();
                 while (resultSet.next()) {
                     Integer id_gain = resultSet.getInt("id_gain");

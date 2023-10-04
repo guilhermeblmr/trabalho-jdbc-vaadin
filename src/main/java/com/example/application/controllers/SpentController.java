@@ -9,6 +9,9 @@ public class SpentController {
     private double valor;
     private String formaPagamento;
 
+    public SpentController() {
+    }
+
     public SpentController(Integer id_spent, String tipo, Date date, double valor, String formaPagamento) {
         this.id_spent = id_spent;
         this.tipo = tipo;
